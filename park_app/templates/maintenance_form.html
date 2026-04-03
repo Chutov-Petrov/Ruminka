@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Новая запись ТО{% endblock %}
+{% block page_title %}Запись на ТО{% endblock %}
+{% block content %}
+<div class="form-card">
+    <form method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Аттракцион</label>
+                <select name="attraction_id" required>
+                    {% for a in attractions %}
+                    <option value="{{ a.id }}">{{ a.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Технический специалист</label>
+                <select name="employee_id" required>
+                    {% for e in employees %}
+                    <option value="{{ e.id }}">{{ e.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Дата проведения</label>
+                <input type="date" name="maintenance_date" required value="{{ today }}">
+            </div>
+            <div class="form-group">
+                <label>Тип работ</label>
+                <select name="type">
+                    <option>Плановое ТО</option>
+                    <option>Ремонт</option>
+                    <option>Осмотр</option>
+                    <option>Замена деталей</option>
+                    <option>Диагностика</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Статус</label>
+                <select name="status">
+                    <option value="planned">Запланировано</option>
+                    <option value="in_progress">В процессе</option>
+                    <option value="completed">Выполнено</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Стоимость (₽)</label>
+                <input type="number" name="cost" min="0" step="100" value="0">
+            </div>
+            <div class="form-group full">
+                <label>Описание работ</label>
+                <textarea name="description" placeholder="Опишите планируемые или выполненные работы..."></textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            <a href="/maintenance" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

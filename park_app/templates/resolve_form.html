@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Закрытие инцидента{% endblock %}
+{% block page_title %}Закрыть инцидент{% endblock %}
+{% block content %}
+<div class="form-card">
+    <div style="background:var(--surface2);border-radius:8px;padding:16px;margin-bottom:20px">
+        <div style="color:var(--muted);font-size:0.8rem;margin-bottom:6px">АТТРАКЦИОН</div>
+        <strong>{{ incident.attr_name }}</strong>
+        <div style="margin-top:8px;color:var(--muted);font-size:0.8rem">ОПИСАНИЕ ИНЦИДЕНТА</div>
+        <div style="margin-top:4px">{{ incident.description }}</div>
+    </div>
+    <form method="post">
+        <div class="form-group">
+            <label>Описание решения / предпринятые меры</label>
+            <textarea name="resolution" required placeholder="Опишите как был решён инцидент..."></textarea>
+        </div>
+        <div class="form-actions" style="margin-top:16px">
+            <button type="submit" class="btn btn-primary">✅ Закрыть инцидент</button>
+            <a href="/incidents" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

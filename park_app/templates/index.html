@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Дашборд — Парк Аттракционов{% endblock %}
+{% block page_title %}Дашборд{% endblock %}
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card yellow">
+        <div class="label">Аттракционов</div>
+        <div class="value">{{ stats.attractions }}</div>
+    </div>
+    <div class="stat-card blue">
+        <div class="label">Сотрудников</div>
+        <div class="value">{{ stats.employees }}</div>
+    </div>
+    <div class="stat-card green">
+        <div class="label">Билетов сегодня</div>
+        <div class="value">{{ stats.tickets_today }}</div>
+    </div>
+    <div class="stat-card green">
+        <div class="label">Выручка сегодня</div>
+        <div class="value" style="font-size:1.4rem">{{ "%.0f"|format(stats.revenue_today) }} ₽</div>
+    </div>
+    <div class="stat-card yellow">
+        <div class="label">Плановых ТО</div>
+        <div class="value">{{ stats.maintenance_planned }}</div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+    <div class="table-header">
+        <h3>Последние продажи билетов</h3>
+        <a href="/tickets/add" class="btn btn-primary">+ Продать билет</a>
+    </div>
+    <table>
+        <thead><tr>
+            <th>Посетитель</th>
+            <th>Аттракцион</th>
+            <th>Дата</th>
+            <th>Кол-во</th>
+            <th>Сумма</th>
+        </tr></thead>
+        <tbody>
+        {% for t in recent_tickets %}
+        <tr>
+            <td>{{ t.visitor_name }}</td>
+            <td>{{ t.attr_name }}</td>
+            <td>{{ t.visit_date }}</td>
+            <td>{{ t.quantity }}</td>
+            <td><strong style="color:#10b981">{{ "%.0f"|format(t.total_price) }} ₽</strong></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Нет данных</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

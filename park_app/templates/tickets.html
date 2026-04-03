@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Билеты{% endblock %}
+{% block page_title %}Продажа билетов{% endblock %}
+{% block content %}
+<div class="table-wrapper">
+    <div class="table-header">
+        <h3>История продаж</h3>
+        <a href="/tickets/add" class="btn btn-primary">+ Продать билет</a>
+    </div>
+    <table>
+        <thead><tr>
+            <th>Посетитель</th>
+            <th>Аттракцион</th>
+            <th>Кассир</th>
+            <th>Дата посещения</th>
+            <th>Кол-во</th>
+            <th>Итого</th>
+            <th>Оплата</th>
+        </tr></thead>
+        <tbody>
+        {% for t in tickets %}
+        <tr>
+            <td>{{ t.visitor_name }}</td>
+            <td>{{ t.attr_name }}</td>
+            <td style="color:var(--muted)">{{ t.emp_name }}</td>
+            <td>{{ t.visit_date }}</td>
+            <td>{{ t.quantity }}</td>
+            <td><strong style="color:#10b981">{{ "%.0f"|format(t.total_price) }} ₽</strong></td>
+            <td>
+                {% if t.payment_method == 'card' %}<span class="badge badge-blue">💳 Карта</span>
+                {% else %}<span class="badge badge-yellow">💵 Наличные</span>{% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:32px">Нет продаж</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

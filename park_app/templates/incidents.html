@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Инциденты{% endblock %}
+{% block page_title %}Журнал инцидентов{% endblock %}
+{% block content %}
+<div class="table-wrapper">
+    <div class="table-header">
+        <h3>Все инциденты</h3>
+        <a href="/incidents/add" class="btn btn-primary">+ Зарегистрировать</a>
+    </div>
+    <table>
+        <thead><tr>
+            <th>Аттракцион</th>
+            <th>Дата и время</th>
+            <th>Серьёзность</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Решение</th>
+            <th></th>
+        </tr></thead>
+        <tbody>
+        {% for i in incidents %}
+        <tr>
+            <td><strong>{{ i.attr_name }}</strong></td>
+            <td>{{ i.incident_date }}</td>
+            <td>
+                {% if i.severity == 'Высокая' %}<span class="badge badge-red">🔴 Высокая</span>
+                {% elif i.severity == 'Средняя' %}<span class="badge badge-yellow">🟡 Средняя</span>
+                {% else %}<span class="badge badge-green">🟢 Низкая</span>{% endif %}
+            </td>
+            <td style="max-width:220px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis" title="{{ i.description }}">{{ i.description }}</td>
+            <td>
+                {% if i.resolved %}<span class="badge badge-green">✅ Закрыт</span>
+                {% else %}<span class="badge badge-red">🔴 Открыт</span>{% endif %}
+            </td>
+            <td style="color:var(--muted);max-width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{ i.resolution or '—' }}</td>
+            <td>
+                {% if not i.resolved %}
+                <a href="/incidents/resolve/{{ i.id }}" class="btn btn-success btn-sm">Закрыть</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

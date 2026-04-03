@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{% if attraction %}Редактировать{% else %}Добавить{% endif %} аттракцион{% endblock %}
+{% block page_title %}{% if attraction %}Редактировать аттракцион{% else %}Новый аттракцион{% endif %}{% endblock %}
+{% block content %}
+<div class="form-card">
+    <form method="post">
+        <div class="form-grid">
+            <div class="form-group full">
+                <label>Название аттракциона</label>
+                <input type="text" name="name" required value="{{ attraction.name if attraction else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Категория</label>
+                <select name="category">
+                    {% for cat in ['Экстрим','Семейный','Детский','Развлечение','Активный'] %}
+                    <option value="{{ cat }}" {% if attraction and attraction.category == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Статус</label>
+                <select name="status">
+                    <option value="active" {% if not attraction or attraction.status == 'active' %}selected{% endif %}>Активен</option>
+                    <option value="inactive" {% if attraction and attraction.status == 'inactive' %}selected{% endif %}>Неактивен</option>
+                    <option value="maintenance" {% if attraction and attraction.status == 'maintenance' %}selected{% endif %}>На ТО</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Минимальный возраст (лет)</label>
+                <input type="number" name="min_age" min="0" value="{{ attraction.min_age if attraction else '0' }}">
+            </div>
+            <div class="form-group">
+                <label>Минимальный рост (см, 0 = без ограничений)</label>
+                <input type="number" name="min_height" min="0" value="{{ attraction.min_height if attraction else '0' }}">
+            </div>
+            <div class="form-group">
+                <label>Максимальная вместимость (чел.)</label>
+                <input type="number" name="max_capacity" min="1" required value="{{ attraction.max_capacity if attraction else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Цена билета (₽)</label>
+                <input type="number" name="price" min="0" step="10" required value="{{ attraction.price if attraction else '' }}">
+            </div>
+            <div class="form-group full">
+                <label>Описание</label>
+                <textarea name="description">{{ attraction.description if attraction else '' }}</textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            <a href="/attractions" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
